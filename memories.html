@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>🏺 Memory Jar</title>
+    <link rel="stylesheet" href="style/main.css" />
+    <link rel="stylesheet" href="style/responsive.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Great+Vibes&family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #D4AF37;
+            --gold-light: #F5D76E;
+            --gold-glow: rgba(212, 175, 55, 0.3);
+            --pink: #FF6B9D;
+            --dark: #0A050A;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(ellipse at 50% 50%, #1A0A1A 0%, #0A050A 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        body::-webkit-scrollbar {
+            width: 6px;
+        }
+        body::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+        body::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 10px;
+        }
+
+        /* ===== BACKGROUND ===== */
+        .animated-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .bg-gradient {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 50%, rgba(108, 59, 110, 0.15) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 60%), radial-gradient(ellipse at 50% 100%, rgba(255, 107, 157, 0.05) 0%, transparent 50%);
+            animation: gradientShift 10s ease-in-out infinite;
+        }
+        @keyframes gradientShift { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: orbFloat 8s ease-in-out infinite;
+        }
+        .orb1 { width: 400px; height: 400px; background: rgba(212, 175, 55, 0.1); top: -100px; right: -100px; }
+        .orb2 { width: 300px; height: 300px; background: rgba(255, 107, 157, 0.08); bottom: -50px; left: -50px; animation-delay: 2s; }
+        .orb3 { width: 200px; height: 200px; background: rgba(108, 59, 110, 0.1); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 4s; }
+        @keyframes orbFloat { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -40px) scale(1.1); } 66% { transform: translate(-30px, 30px) scale(0.9); } }
+
+        /* ===== LOVE RAIN ===== */
+        .love-rain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .love-rain .rain-drop {
+            position: absolute;
+            top: -20px;
+            font-size: 16px;
+            animation: rainFall linear infinite;
+            opacity: 0.15;
+        }
+        @keyframes rainFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.15; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ===== FLOATING HEARTS ===== */
+        .floating-hearts {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .heart-particle {
+            position: absolute;
+            font-size: 18px;
+            animation: floatHeartLinear linear infinite;
+            opacity: 0.04;
+        }
+        @keyframes floatHeartLinear {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0.04; }
+            100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ===== SPARKLES ===== */
+        .sparkles-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .sparkle-dot {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: sparkleFloat linear infinite;
+            opacity: 0;
+            box-shadow: 0 0 6px var(--gold-glow);
+        }
+        @keyframes sparkleFloat {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.8; transform: scale(1.5); }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(0); opacity: 0; }
+        }
+
+        /* ===== MAIN CARD ===== */
+        .memory-page {
+            width: 100%;
+            max-width: 720px;
+            padding: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .memory-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 44px;
+            padding: 44px 38px 38px;
+            box-shadow: 0 40px 120px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            text-align: center;
+            position: relative;
+            overflow: visible;
+            animation: slideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .card-glow {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(212, 175, 55, 0.04) 0%, transparent 70%);
+            animation: cardGlow 20s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes cardGlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .memory-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), var(--pink), var(--gold), transparent);
+            opacity: 0.3;
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+        @keyframes borderGlow { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.6; } }
+
+        /* ===== HEADER ===== */
+        .memory-icon {
+            font-size: 60px;
+            display: block;
+            margin-bottom: 10px;
+            animation: iconBounce 2.5s ease-in-out infinite;
+        }
+        @keyframes iconBounce { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-10px) scale(1.1); } }
+
+        .memory-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 34px;
+            font-weight: 900;
+            color: #FFFFFF;
+            margin-bottom: 4px;
+            background: linear-gradient(135deg, #FFFFFF 20%, var(--gold-light) 50%, var(--pink) 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: titleShimmer 4s ease-in-out infinite;
+        }
+        @keyframes titleShimmer { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+        .memory-subtitle {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 14px;
+            font-weight: 300;
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+        }
+
+        /* ============================================
+           JAR - বড় করা হয়েছে
+           ============================================ */
+        .jar-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 10px 0 20px 0;
+            min-height: 300px;
+            width: 100%;
+        }
+
+        .jar-wrapper {
+            position: relative;
+            width: 220px;
+            height: 250px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .jar-wrapper:hover {
+            transform: scale(1.05);
+        }
+        .jar-wrapper:active {
+            transform: scale(0.95);
+        }
+
+        .jar-lid {
+            font-size: 70px;
+            display: block;
+            text-align: center;
+            margin-bottom: -18px;
+            animation: lidFloat 3s ease-in-out infinite;
+        }
+        @keyframes lidFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+        }
+
+        .jar-body {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: 0 0 40px 40px;
+            height: 175px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .jar-body .jar-label {
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 16px;
+            font-weight: 300;
+            z-index: 1;
+        }
+
+        .jar-body .jar-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(212, 175, 55, 0.03), transparent);
+            animation: jarGlow 3s ease-in-out infinite;
+        }
+        @keyframes jarGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        .click-hint {
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 14px;
+            margin-top: 14px;
+            animation: pulseText 2s ease-in-out infinite;
+            font-family: 'Inter', sans-serif;
+        }
+        @keyframes pulseText { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+
+        /* ============================================
+           FLYING PHOTOS - Frame এর ভিতরেই থাকবে
+           ============================================ */
+        .flying-photos {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .flying-photo {
+            position: absolute;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            animation: flyOut 3.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border: 2px solid rgba(212, 175, 55, 0.1);
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+            pointer-events: auto;
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .flying-photo.zoomed {
+            transform: scale(3) translate(0, 0) !important;
+            z-index: 1000 !important;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.8);
+            border-color: var(--gold);
+            animation-play-state: paused;
+            pointer-events: auto;
+            max-width: 80vw;
+            max-height: 80vh;
+            width: auto;
+            height: auto;
+            min-width: 200px;
+            min-height: 200px;
+        }
+
+        .flying-photo.zoom-out {
+            animation: zoomOut 0.4s ease forwards;
+        }
+
+        @keyframes zoomOut {
+            0% { transform: scale(3); opacity: 1; }
+            100% { transform: scale(0.5); opacity: 0; }
+        }
+
+        @keyframes flyOut {
+            0% { transform: translate(0, 0) scale(0.3) rotate(0deg); opacity: 0; }
+            15% { transform: translate(var(--tx), var(--ty)) scale(1) rotate(10deg); opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translate(calc(var(--tx) * 1.5), calc(var(--ty) * 1.5)) scale(0.7) rotate(20deg); opacity: 0; }
+        }
+
+        /* ============================================
+           BUTTONS
+           ============================================ */
+        .memory-footer {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .nav-btn {
+            padding: 14px 36px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-btn.primary {
+            background: linear-gradient(135deg, #D4AF37, #F5D76E);
+            color: #0A050A;
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .nav-btn.primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .nav-btn.secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .nav-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #FFFFFF;
+        }
+
+        /* ============================================
+           CONFETTI
+           ============================================ */
+        #confettiContainer {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            top: -10px;
+            animation: confettiFall linear forwards;
+        }
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 600px) {
+            .memory-card { padding: 30px 20px 26px; border-radius: 32px; }
+            .memory-title { font-size: 26px; }
+            .memory-icon { font-size: 48px; }
+            .jar-wrapper { width: 170px; height: 200px; }
+            .jar-body { height: 140px; }
+            .jar-lid { font-size: 55px; }
+            .flying-photo { width: 80px; height: 80px; }
+            .flying-photo.zoomed { transform: scale(2.5) !important; min-width: 150px; min-height: 150px; }
+            .nav-btn { padding: 12px 24px; font-size: 14px; }
+        }
+
+        @media (max-width: 400px) {
+            .memory-card { padding: 20px 14px 18px; border-radius: 24px; }
+            .memory-title { font-size: 22px; }
+            .memory-icon { font-size: 40px; }
+            .jar-wrapper { width: 140px; height: 170px; }
+            .jar-body { height: 115px; }
+            .jar-lid { font-size: 45px; margin-bottom: -14px; }
+            .flying-photo { width: 65px; height: 65px; }
+            .flying-photo.zoomed { transform: scale(2) !important; min-width: 120px; min-height: 120px; }
+            .memory-subtitle { font-size: 12px; }
+            .click-hint { font-size: 12px; }
+        }
+
+        @media (max-width: 350px) {
+            .jar-wrapper { width: 120px; height: 150px; }
+            .jar-body { height: 100px; }
+            .jar-lid { font-size: 38px; }
+            .flying-photo { width: 55px; height: 55px; }
+            .flying-photo.zoomed { transform: scale(1.8) !important; min-width: 100px; min-height: 100px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Love Rain -->
+    <div class="love-rain" id="loveRain"></div>
+
+    <!-- Floating Hearts -->
+    <div class="floating-hearts" id="heartsContainer"></div>
+
+    <!-- Sparkles -->
+    <div class="sparkles-bg" id="sparklesBg"></div>
+
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="bg-gradient"></div>
+        <div class="bg-orb orb1"></div>
+        <div class="bg-orb orb2"></div>
+        <div class="bg-orb orb3"></div>
+    </div>
+
+    <!-- Main -->
+    <div class="memory-page">
+        <div class="memory-card">
+            <div class="card-glow"></div>
+
+            <!-- Header -->
+            <span class="memory-icon">🏺</span>
+            <h1 class="memory-title">Memory Jar</h1>
+            <p class="memory-subtitle">💕 Click the jar to see memories fly!</p>
+
+            <!-- Jar -->
+            <div class="jar-container">
+                <div class="jar-wrapper" id="jarWrapper" onclick="openJar()">
+                    <span class="jar-lid">🏺</span>
+                    <div class="jar-body">
+                        <div class="jar-glow"></div>
+                        <span class="jar-label">💭 Click Me</span>
+                    </div>
+                </div>
+                <p class="click-hint" id="clickHint">👆 Tap the jar</p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="memory-footer">
+                <a href="dashboard.html" class="nav-btn secondary">← Back</a>
+                <a href="puzzle.html" class="nav-btn primary">Next → 🧩</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Flying Photos Container -->
+    <div class="flying-photos" id="flyingPhotos"></div>
+
+    <div id="confettiContainer"></div>
+
+    <script src="js/memories.js"></script>
+    <script src="js/performance.js"></script>
+</body>
+</html>

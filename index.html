@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🔐 Unlock Your Surprise</title>
+    <link rel="stylesheet" href="style/main.css" />
+    <link rel="stylesheet" href="style/lock.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <div class="lock-container">
+        <div class="lock-card">
+            <div class="lock-icon">💌</div>
+            <h1 class="lock-title">A Special Surprise Waiting For you AYVA PAKHI</h1>
+            <p class="lock-subtitle">Answer the question to enter</p>
+            
+            <div class="question-box">
+                <p class="question-text"> 😽<span id="questionDisplay">Amader first date kothay hoyechilo?</span></p>
+                <input type="text" id="answerInput" placeholder="Type your answer..." autocomplete="off" />
+                <button id="unlockBtn" onclick="unlockDoor()">
+                    <span>🔓 Unlock</span>
+                </button>
+                <p id="errorMsg" class="error-message"></p>
+            </div>
+
+            <div class="hint-box">
+                <p>💡 Hint: <span id="hintText">Jekhane amra first time coffee khai</span></p>
+            </div>
+
+            <div class="lock-footer">
+                <p>Made with ❤️ for the most special person</p>
+            </div>
+        </div>
+
+        <!-- Floating hearts background -->
+        <div class="floating-hearts" id="heartsContainer"></div>
+    </div>
+
+    <script src="js/lock.js"></script>
+</body>
+</html>

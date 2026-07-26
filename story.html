@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>📖 Our Story</title>
+    <link rel="stylesheet" href="style/main.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Great+Vibes&family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #D4AF37;
+            --gold-light: #F5D76E;
+            --gold-glow: rgba(212, 175, 55, 0.3);
+            --pink: #FF6B9D;
+            --dark: #0A050A;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(ellipse at 50% 50%, #1A0A1A 0%, #0A050A 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        body::-webkit-scrollbar {
+            width: 6px;
+        }
+        body::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+        body::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 10px;
+        }
+        body::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-light);
+        }
+
+        /* ===== BACKGROUND ===== */
+        .animated-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-gradient {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 50%, rgba(108, 59, 110, 0.15) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 60%), radial-gradient(ellipse at 50% 100%, rgba(255, 107, 157, 0.05) 0%, transparent 50%);
+            animation: gradientShift 10s ease-in-out infinite;
+        }
+        @keyframes gradientShift { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: orbFloat 8s ease-in-out infinite;
+        }
+        .orb1 { width: 400px; height: 400px; background: rgba(212, 175, 55, 0.1); top: -100px; right: -100px; }
+        .orb2 { width: 300px; height: 300px; background: rgba(255, 107, 157, 0.08); bottom: -50px; left: -50px; animation-delay: 2s; }
+        .orb3 { width: 200px; height: 200px; background: rgba(108, 59, 110, 0.1); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 4s; }
+        @keyframes orbFloat { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -40px) scale(1.1); } 66% { transform: translate(-30px, 30px) scale(0.9); } }
+
+        /* ===== LOVE RAIN ===== */
+        .love-rain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .love-rain .rain-drop {
+            position: absolute;
+            top: -20px;
+            font-size: 16px;
+            animation: rainFall linear infinite;
+            opacity: 0.15;
+        }
+        @keyframes rainFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.15; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ===== FLOATING HEARTS ===== */
+        .floating-hearts {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .heart-particle {
+            position: absolute;
+            font-size: 18px;
+            animation: floatHeartLinear linear infinite;
+            opacity: 0.04;
+        }
+        @keyframes floatHeartLinear {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0.04; }
+            100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ===== SPARKLES ===== */
+        .sparkles-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .sparkle-dot {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: sparkleFloat linear infinite;
+            opacity: 0;
+            box-shadow: 0 0 6px var(--gold-glow);
+        }
+        @keyframes sparkleFloat {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.8; transform: scale(1.5); }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(0); opacity: 0; }
+        }
+
+        /* ===== MAIN CARD ===== */
+        .story-page {
+            width: 100%;
+            max-width: 720px;
+            padding: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .story-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 44px;
+            padding: 44px 38px 38px;
+            box-shadow: 0 40px 120px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            text-align: center;
+            position: relative;
+            overflow: visible;
+            animation: slideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .card-glow {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(212, 175, 55, 0.04) 0%, transparent 70%);
+            animation: cardGlow 20s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes cardGlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .story-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), var(--pink), var(--gold), transparent);
+            opacity: 0.3;
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+        @keyframes borderGlow { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.6; } }
+
+        /* ===== HEADER ===== */
+        .story-icon {
+            font-size: 60px;
+            display: block;
+            margin-bottom: 10px;
+            animation: iconBounce 2.5s ease-in-out infinite;
+        }
+        @keyframes iconBounce { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-10px) scale(1.1); } }
+
+        .story-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 34px;
+            font-weight: 900;
+            color: #FFFFFF;
+            margin-bottom: 4px;
+            background: linear-gradient(135deg, #FFFFFF 20%, var(--gold-light) 50%, var(--pink) 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: titleShimmer 4s ease-in-out infinite;
+        }
+        @keyframes titleShimmer { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+        .story-subtitle {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 14px;
+            font-weight: 300;
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+        }
+
+        /* ============================================
+           PHOTO GALLERY - STORY FOLDER
+           ============================================ */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .photo-gallery::-webkit-scrollbar {
+            width: 4px;
+        }
+        .photo-gallery::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+        }
+        .photo-gallery::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 10px;
+        }
+
+        .photo-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(212, 175, 55, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.02);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: auto;
+            aspect-ratio: auto;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.04);
+            border-color: var(--gold);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.15);
+            z-index: 5;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.4s ease;
+            max-height: 300px;
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .photo-item .photo-placeholder {
+            width: 100%;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .photo-item .photo-label {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
+            white-space: nowrap;
+            opacity: 0;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .photo-item:hover .photo-label {
+            opacity: 1;
+            bottom: 12px;
+        }
+
+        /* Full Width Photo */
+        .photo-full {
+            grid-column: 1 / -1;
+        }
+
+        .photo-full img {
+            max-height: 350px;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* Different sizes */
+        .photo-item.tall img {
+            max-height: 350px;
+        }
+
+        .photo-item.wide img {
+            max-height: 200px;
+        }
+
+        .photo-item.square img {
+            max-height: 250px;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+        }
+
+        /* ============================================
+           STORY TEXT
+           ============================================ */
+        .story-text-container {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 18px;
+            padding: 24px 28px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-bottom: 20px;
+            text-align: left;
+            min-height: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-text-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.1;
+        }
+
+        .story-text-container .story-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 2.2;
+            color: rgba(255, 255, 255, 0.9);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            letter-spacing: 0.3px;
+        }
+
+        .story-text-container .story-text .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 22px;
+            background: var(--gold);
+            margin-left: 2px;
+            animation: blink 0.8s step-end infinite;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* ============================================
+           BUTTONS
+           ============================================ */
+        .story-footer {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 14px 36px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-btn.primary {
+            background: linear-gradient(135deg, #D4AF37, #F5D76E);
+            color: #0A050A;
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .nav-btn.primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .nav-btn.secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .nav-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #FFFFFF;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 600px) {
+            .story-card { padding: 30px 20px 26px; border-radius: 32px; }
+            .story-title { font-size: 26px; }
+            .story-icon { font-size: 48px; }
+            .photo-gallery { grid-template-columns: repeat(2, 1fr); gap: 8px; max-height: 400px; }
+            .photo-full { grid-column: 1 / -1; }
+            .photo-full img { max-height: 200px; }
+            .photo-item img { max-height: 200px; }
+            .photo-item.tall img { max-height: 250px; }
+            .story-text-container { padding: 16px 18px; min-height: 100px; }
+            .story-text-container .story-text { font-size: 15px; line-height: 2; }
+            .nav-btn { padding: 12px 24px; font-size: 14px; }
+            .photo-item .photo-label { font-size: 9px; padding: 2px 10px; }
+        }
+
+        @media (max-width: 400px) {
+            .photo-gallery { grid-template-columns: 1fr 1fr; gap: 6px; max-height: 350px; }
+            .photo-full { grid-column: 1 / -1; }
+            .photo-full img { max-height: 160px; }
+            .photo-item img { max-height: 160px; }
+            .story-text-container .story-text { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Love Rain -->
+    <div class="love-rain" id="loveRain"></div>
+
+    <!-- Floating Hearts -->
+    <div class="floating-hearts" id="heartsContainer"></div>
+
+    <!-- Sparkles -->
+    <div class="sparkles-bg" id="sparklesBg"></div>
+
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="bg-gradient"></div>
+        <div class="bg-orb orb1"></div>
+        <div class="bg-orb orb2"></div>
+        <div class="bg-orb orb3"></div>
+    </div>
+
+    <!-- Main -->
+    <div class="story-page">
+        <div class="story-card">
+            <div class="card-glow"></div>
+
+            <!-- Header -->
+            <span class="story-icon">📖</span>
+            <h1 class="story-title">Our Story</h1>
+            <p class="story-subtitle">💕আমাদের সবচেয়ে সুন্দরতম মুহূর্ত</p>
+
+            <!-- ==========================================
+                 📸 PHOTO GALLERY - assets/images/story/
+                 ছবি রাখতে হবে: assets/images/story/ ফোল্ডারে
+                 ========================================== -->
+            <div class="photo-gallery">
+
+                <!-- Photo 1 -->
+                <div class="photo-item">
+                    <img src="assets/images/story/story1.jpg" alt="Our First Meeting" 
+                         onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>💕</div>'">
+                    <span class="photo-label">First Ride</span>
+                </div>
+
+                <!-- Photo 2 -->
+                <div class="photo-item">
+                    <img src="assets/images/story/story2.jpg" alt="Our First Date" 
+                         onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>❤️</div>'">
+                    <span class="photo-label">How pretty you are</span>
+                </div>
+
+                <!-- Photo 3 -->
+                <div class="photo-item">
+                    <img src="assets/images/story/story3.jpg" alt="Our First Trip" 
+                         onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>💖</div>'">
+                    <span class="photo-label">I hold your hand forever</span>
+                </div>
+
+                <!-- Photo 4 - Full Width (Special) -->
+                <div class="photo-item photo-full">
+                    <img src="assets/images/story/story4.jpg" alt="Together Forever" 
+                         onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>💗</div>'">
+                    <span class="photo-label">Together Forever 💕</span>
+                </div>
+
+                <!-- Photo 5 -->
+                <div class="photo-item">
+                    <img src="assets/images/story/story5.jpg" alt="Sunset Together" 
+                         onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>💝</div>'">
+                    <span class="photo-label">Together</span>
+                </div>
+
+                <!-- Photo 6 -->
+                <div class="photo-item">
+                    <img src="assets/images/story/story6.jpg" alt="Happy Moments" 
+                         onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>✨</div>'">
+                    <span class="photo-label">Happy Moments</span>
+                </div>
+
+            </div>
+
+            <!-- Story Text -->
+            <div class="story-text-container">
+                <div class="story-text" id="storyText">
+                    <span class="cursor"></span>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="story-footer">
+                <a href="dashboard.html" class="nav-btn secondary">← Back</a>
+                <a href="memories.html" class="nav-btn primary">Next → 🏺</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="confettiContainer"></div>
+
+    <script src="js/story.js"></script>
+</body>
+</html>

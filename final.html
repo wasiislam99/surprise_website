@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>💎 Final Surprise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #D4AF37;
+            --gold-light: #F5D76E;
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --pink: #FF6B9D;
+            --dark: #0A050A;
+            --glass: rgba(255, 255, 255, 0.06);
+        }
+
+        html,
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0A050A;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+            padding: 0;
+            margin: 0;
+        }
+
+        .animated-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .bg-gradient {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 50%, rgba(108, 59, 110, 0.15) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 60%), radial-gradient(ellipse at 50% 100%, rgba(255, 107, 157, 0.03) 0%, transparent 50%);
+        }
+
+        .floating-hearts {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .heart-particle {
+            position: absolute;
+            font-size: 16px;
+            animation: floatHeartLinear linear infinite;
+            opacity: 0.04;
+        }
+        @keyframes floatHeartLinear {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0.04; }
+            100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ===== MAIN ===== */
+        .final-page {
+            width: 100%;
+            max-width: 680px;
+            padding: 12px;
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .final-container {
+            width: 100%;
+            animation: slideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .lock-ring {
+            display: flex;
+            justify-content: center;
+            gap: clamp(6px, 1.5vw, 14px);
+            margin-bottom: clamp(10px, 2vw, 18px);
+        }
+        .ring-heart {
+            font-size: clamp(14px, 2.5vw, 22px);
+            animation: ringFloat 3s ease-in-out infinite;
+            opacity: 0.4;
+        }
+        .ring-heart:nth-child(1) { animation-delay: 0s; }
+        .ring-heart:nth-child(2) { animation-delay: 0.3s; }
+        .ring-heart:nth-child(3) { animation-delay: 0.6s; }
+        .ring-heart:nth-child(4) { animation-delay: 0.9s; }
+        .ring-heart:nth-child(5) { animation-delay: 1.2s; }
+        @keyframes ringFloat {
+            0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+            50% { transform: translateY(-8px) scale(1.15) rotate(4deg); }
+        }
+
+        .final-card {
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: clamp(28px, 5vw, 44px);
+            padding: clamp(20px, 3.5vw, 38px) clamp(16px, 3vw, 34px) clamp(18px, 3vw, 34px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-glow {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 70%);
+            animation: cardGlow 20s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes cardGlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .final-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), var(--pink), var(--gold), transparent);
+            opacity: 0.2;
+        }
+
+        /* ===== ICON & TITLE ===== */
+        .icon-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: clamp(6px, 1.5vw, 14px);
+        }
+        .icon-pulse {
+            position: absolute;
+            inset: -15px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+            animation: iconPulse 2.5s ease-in-out infinite;
+        }
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(0.8); opacity: 0.2; }
+            50% { transform: scale(1.3); opacity: 0.5; }
+        }
+        .icon {
+            font-size: clamp(40px, 8vw, 60px);
+            display: block;
+            position: relative;
+            animation: iconBounce 2.5s ease-in-out infinite;
+        }
+        @keyframes iconBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-6px) scale(1.05); }
+        }
+
+        .final-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(22px, 5vw, 32px);
+            font-weight: 900;
+            color: #FFFFFF;
+            margin-bottom: clamp(2px, 0.5vw, 6px);
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #FFFFFF 20%, var(--gold-light) 50%, var(--pink) 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: titleShimmer 3s ease-in-out infinite;
+        }
+        @keyframes titleShimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .final-subtitle {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: clamp(11px, 1.5vw, 14px);
+            font-weight: 300;
+            margin-bottom: clamp(14px, 2.5vw, 24px);
+            letter-spacing: 2px;
+        }
+
+        /* ===== PASSWORD BOX ===== */
+        .question-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: clamp(14px, 2.5vw, 22px);
+            padding: clamp(14px, 2.5vw, 24px) clamp(12px, 2vw, 22px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .question-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+        .q-icon { font-size: clamp(14px, 1.8vw, 20px); }
+        .q-label {
+            color: rgba(255, 255, 255, 0.15);
+            font-size: clamp(9px, 1vw, 12px);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .question-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: clamp(12px, 1.3vw, 15px);
+            font-weight: 400;
+            line-height: 1.5;
+            margin-bottom: clamp(10px, 1.5vw, 16px);
+        }
+        .question-text #videoHint {
+            color: var(--gold-light);
+            font-weight: 600;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: clamp(8px, 1.2vw, 14px);
+        }
+        #videoPassword {
+            width: 100%;
+            padding: clamp(10px, 1.5vw, 15px) clamp(14px, 1.8vw, 20px);
+            border-radius: clamp(10px, 1.5vw, 16px);
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.04);
+            color: #FFFFFF;
+            font-size: clamp(12px, 1.3vw, 15px);
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            outline: none;
+            position: relative;
+            z-index: 2;
+        }
+        #videoPassword::placeholder { color: rgba(255, 255, 255, 0.15); }
+        #videoPassword:focus {
+            border-color: var(--gold);
+            background: rgba(255, 255, 255, 0.08);
+            transform: scale(1.01);
+        }
+        .input-emoji {
+            position: absolute;
+            right: clamp(10px, 1.5vw, 16px);
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: clamp(13px, 1.5vw, 17px);
+            opacity: 0.2;
+            z-index: 3;
+        }
+
+        .unlock-btn {
+            width: 100%;
+            padding: clamp(10px, 1.5vw, 16px);
+            border: none;
+            border-radius: clamp(10px, 1.5vw, 16px);
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: #0A050A;
+            font-size: clamp(12px, 1.3vw, 16px);
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+        }
+        .unlock-btn:active { transform: scale(0.97); }
+        .unlock-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-text { position: relative; z-index: 1; }
+        .btn-loader {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(10, 5, 10, 0.1);
+            border-top-color: #0A050A;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            position: relative;
+            z-index: 1;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .error-message {
+            color: #FF6B6B;
+            font-size: clamp(11px, 1.1vw, 13px);
+            margin-top: 6px;
+            min-height: 16px;
+        }
+        .error-message.success { color: #4CAF50; }
+        .attempts-counter {
+            margin-top: 4px;
+            font-size: clamp(10px, 1vw, 12px);
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+        .final-footer {
+            margin-top: clamp(12px, 1.8vw, 20px);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            align-items: center;
+        }
+        .final-footer p {
+            color: rgba(255, 255, 255, 0.06);
+            font-size: clamp(10px, 1vw, 12px);
+            font-weight: 300;
+        }
+        .footer-heart {
+            color: var(--pink);
+            display: inline-block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
+        }
+
+        /* ===== 3D BUTTON ===== */
+        .btn-3d-container {
+            display: none;
+            margin-top: clamp(14px, 2.5vw, 24px);
+            perspective: 600px;
+        }
+        .btn-3d-container.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-3d {
+            position: relative;
+            display: inline-block;
+            padding: clamp(10px, 1.5vw, 16px) clamp(18px, 3vw, 32px);
+            background: linear-gradient(145deg, #D4AF37, #F5D76E, #D4AF37);
+            background-size: 200% 200%;
+            border: none;
+            border-radius: clamp(12px, 1.8vw, 18px);
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(12px, 1.3vw, 16px);
+            font-weight: 700;
+            color: #0A050A;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            transform: rotateX(0deg) rotateY(0deg) scale(1);
+            box-shadow: 0 clamp(6px, 1vw, 12px) 0 #B8960F, 0 clamp(12px, 2vw, 25px) clamp(20px, 3vw, 40px) rgba(0, 0, 0, 0.3), inset 0 -4px 10px rgba(0, 0, 0, 0.1), inset 0 4px 10px rgba(255, 255, 255, 0.2);
+            letter-spacing: 0.5px;
+            width: 100%;
+            max-width: clamp(200px, 40vw, 320px);
+        }
+        .btn-3d:active {
+            transform: rotateX(0deg) rotateY(0deg) scale(0.95);
+            box-shadow: 0 clamp(3px, 0.5vw, 6px) 0 #B8960F, 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        .btn-3d .btn-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(6px, 1vw, 12px);
+        }
+        .btn-3d .btn-icon { font-size: clamp(16px, 2vw, 22px); }
+        .btn-3d .btn-text {
+            font-size: clamp(12px, 1.3vw, 16px);
+            color: #0A050A;
+            font-weight: 700;
+        }
+        .btn-3d .btn-shine-3d {
+            position: absolute;
+            inset: 0;
+            border-radius: clamp(12px, 1.8vw, 18px);
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            animation: shine3d 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes shine3d {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .click-counter {
+            color: rgba(255, 255, 255, 0.15);
+            font-size: clamp(11px, 1.1vw, 13px);
+            margin-top: 6px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ===== DRIVE BUTTON ===== */
+        .drive-btn-container {
+            display: none;
+            margin-top: clamp(14px, 2.5vw, 24px);
+        }
+        .drive-btn-container.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .drive-btn {
+            display: inline-block;
+            padding: clamp(14px, 2vw, 20px) clamp(24px, 4vw, 40px);
+            background: linear-gradient(135deg, #4285F4, #34A853, #FBBC04, #EA4335);
+            background-size: 200% 200%;
+            border: none;
+            border-radius: clamp(14px, 2vw, 20px);
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(14px, 1.5vw, 18px);
+            font-weight: 700;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 8px 25px rgba(66, 133, 244, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .drive-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(66, 133, 244, 0.4);
+        }
+        .drive-btn:active {
+            transform: scale(0.95);
+        }
+        .drive-btn .btn-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .drive-btn .btn-icon {
+            font-size: clamp(20px, 2.5vw, 28px);
+        }
+        .drive-btn .drive-shine {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.15) 50%, transparent 70%);
+            animation: driveShine 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes driveShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        /* ===== POPUP ===== */
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: overlayFade 0.3s ease;
+        }
+        .popup-overlay.show { display: flex; }
+        @keyframes overlayFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .popup-3d {
+            background: linear-gradient(145deg, #1A0A1A, #2D1B2D);
+            border: 2px solid rgba(212, 175, 55, 0.15);
+            border-radius: clamp(20px, 3vw, 32px);
+            padding: clamp(20px, 3vw, 36px) clamp(16px, 2.5vw, 32px) clamp(18px, 2.5vw, 28px);
+            max-width: clamp(280px, 60vw, 420px);
+            width: 90%;
+            text-align: center;
+            animation: popup3d 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        @keyframes popup3d {
+            0% { transform: scale(0.8) rotateX(-10deg); opacity: 0; }
+            100% { transform: scale(1) rotateX(0deg); opacity: 1; }
+        }
+
+        .popup-3d .popup-icon {
+            font-size: clamp(36px, 6vw, 56px);
+            display: block;
+            margin-bottom: 6px;
+        }
+        .popup-3d .popup-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(18px, 3vw, 26px);
+            color: #FFFFFF;
+            margin-bottom: 4px;
+            background: linear-gradient(135deg, #D4AF37, #F5D76E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .popup-3d .popup-message {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: clamp(12px, 1.3vw, 16px);
+            line-height: 1.6;
+            margin-bottom: clamp(12px, 1.5vw, 18px);
+            font-weight: 300;
+        }
+        .popup-3d .popup-close {
+            padding: clamp(8px, 1vw, 12px) clamp(20px, 3vw, 36px);
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #D4AF37, #F5D76E);
+            color: #0A050A;
+            font-size: clamp(12px, 1.2vw, 15px);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        .popup-3d .popup-close:active { transform: scale(0.95); }
+
+        /* ===== BACK BUTTON ===== */
+        .back-btn {
+            display: inline-block;
+            margin-top: 4px;
+            padding: clamp(8px, 1vw, 12px) clamp(16px, 2.5vw, 32px);
+            border: none;
+            border-radius: 50px;
+            font-size: clamp(12px, 1.1vw, 15px);
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .back-btn:active { transform: scale(0.95); }
+
+        /* ===== CONFETTI ===== */
+        #confettiContainer {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            top: -10px;
+            animation: confettiFall linear forwards;
+        }
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (min-width: 1024px) {
+            .final-page { max-width: 680px; padding: 20px; }
+            .final-card { padding: 40px 36px 36px; border-radius: 44px; }
+        }
+
+        @media (max-width: 1023px) {
+            .final-page { max-width: 600px; padding: 16px; }
+            .final-card { padding: 32px 28px 28px; border-radius: 38px; }
+        }
+
+        @media (max-width: 767px) {
+            .final-page { max-width: 100%; padding: 12px; }
+            .final-card { padding: 24px 16px 20px; border-radius: 28px; }
+            .lock-ring .ring-heart { font-size: 16px; }
+            .lock-ring { gap: 8px; }
+        }
+
+        @media (max-width: 479px) {
+            .final-page { padding: 8px; }
+            .final-card { padding: 18px 12px 16px; border-radius: 24px; }
+            .lock-ring .ring-heart { font-size: 13px; }
+            .lock-ring { gap: 5px; }
+            .final-subtitle { font-size: 11px; margin-bottom: 12px; }
+            .question-box { padding: 12px 10px; }
+            #videoPassword { padding: 8px 12px; font-size: 12px; }
+            .unlock-btn { padding: 10px; font-size: 12px; }
+            .btn-3d { padding: 8px 16px; font-size: 12px; max-width: 180px; }
+            .btn-3d .btn-icon { font-size: 16px; }
+            .btn-3d .btn-text { font-size: 12px; }
+            .drive-btn { padding: 12px 20px; font-size: 14px; max-width: 260px; }
+            .popup-3d { padding: 20px 14px 16px; }
+            .popup-3d .popup-title { font-size: 18px; }
+            .popup-3d .popup-message { font-size: 12px; }
+            .back-btn { padding: 6px 16px; font-size: 12px; }
+            .final-footer p { font-size: 10px; }
+            .click-counter { font-size: 10px; }
+        }
+
+        @media (max-width: 319px) {
+            .final-card { padding: 14px 8px 12px; border-radius: 20px; }
+            .final-title { font-size: 18px; }
+            .icon { font-size: 32px; }
+            .question-text { font-size: 11px; }
+            #videoPassword { font-size: 11px; padding: 6px 10px; }
+            .unlock-btn { font-size: 11px; padding: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"><div class="bg-gradient"></div></div>
+    <div class="floating-hearts" id="heartsContainer"></div>
+
+    <div class="final-page">
+        <div class="final-container">
+            <div class="lock-ring">
+                <span class="ring-heart">💕</span>
+                <span class="ring-heart">❤️</span>
+                <span class="ring-heart">💖</span>
+                <span class="ring-heart">💗</span>
+                <span class="ring-heart">💝</span>
+            </div>
+
+            <div class="final-card">
+                <div class="card-glow"></div>
+
+                <div class="icon-wrapper">
+                    <div class="icon-pulse"></div>
+                    <span class="icon">💎</span>
+                </div>
+
+                <h1 class="final-title">Final Surprise</h1>
+                <p class="final-subtitle">Enter password to reveal your surprise 💕</p>
+
+                <!-- Password Lock -->
+                <div class="question-box" id="videoLock">
+                    <div class="question-header">
+                        <span class="q-icon">🔐</span>
+                        <span class="q-label">Enter Password</span>
+                    </div>
+
+                    <p class="question-text">
+                        💡 Hint: <span id="videoHint">Ami tomake shobtheke beshi ki bole daki?😏</span>
+                    </p>
+
+                    <div class="input-wrapper">
+                        <input type="password" id="videoPassword" placeholder="Type password..." autocomplete="off" />
+                        <span class="input-emoji">🔑</span>
+                    </div>
+
+                    <button class="unlock-btn" id="unlockVideoBtn" onclick="unlockVideo()">
+                        <span class="btn-text">ENTER</span>
+                        <span class="btn-loader" style="display:none;"></span>
+                    </button>
+
+                    <div id="videoError" class="error-message"></div>
+                    <div class="attempts-counter">
+                        <span id="videoAttempts">💪 3 attempts left</span>
+                    </div>
+                </div>
+
+                <!-- 3D BUTTON (Click counter) -->
+                <div class="btn-3d-container" id="btn3dContainer">
+                    <button class="btn-3d" id="surpriseBtn" onclick="handleButtonClick()">
+                        <div class="btn-shine-3d"></div>
+                        <div class="btn-content">
+                            <span class="btn-icon">🎁</span>
+                            <span class="btn-text" id="btnText">VIEW SURPRISE</span>
+                        </div>
+                    </button>
+                    <div class="click-counter">
+                        <span id="clickCounter">👆 Click me! (0/7)</span>
+                    </div>
+                </div>
+
+                <!-- Google Drive Button (Final) -->
+                <div class="drive-btn-container" id="driveBtnContainer">
+                    <a href="#" target="_blank" class="drive-btn" id="driveBtn">
+                        <div class="drive-shine"></div>
+                        <div class="btn-content">
+                            <span class="btn-icon">▶️</span>
+                            <span>Watch Video on Google Drive</span>
+                        </div>
+                    </a>
+                    <p style="color: rgba(255,255,255,0.2); font-size: 12px; margin-top: 8px;">
+                        🎉 Click to watch your surprise video!
+                    </p>
+                </div>
+
+                <div class="final-footer">
+                    <p>Made with <span class="footer-heart">❤️</span> for you</p>
+                </div>
+
+                <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP -->
+    <div class="popup-overlay" id="popupOverlay" onclick="closePopupOutside(event)">
+        <div class="popup-3d" id="popup3d">
+            <span class="popup-icon" id="popupIcon">💖</span>
+            <h2 class="popup-title" id="popupTitle">Love Message 💕</h2>
+            <p class="popup-message" id="popupMessage">You are the most beautiful soul I've ever known. I love you! ❤️</p>
+            <button class="popup-close" onclick="closePopup()">💕 Close</button>
+        </div>
+    </div>
+
+    <div id="confettiContainer"></div>
+
+    <script src="js/final.js"></script>
+</body>
+</html>
