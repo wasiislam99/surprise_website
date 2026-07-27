@@ -1,5 +1,5 @@
 // ============================================
-// MEMORY JAR - Flying Photos with Zoom (Image Load Fix)
+// MEMORY JAR - Flying Photos with Zoom (Instant Load)
 // ============================================
 
 // ============================================
@@ -35,7 +35,6 @@ function openJar() {
     var wrapper = document.getElementById('jarWrapper');
     var hint = document.getElementById('clickHint');
 
-    // Shake animation
     wrapper.style.animation = 'shake 0.5s ease';
     setTimeout(function() {
         wrapper.style.animation = '';
@@ -54,16 +53,14 @@ function openJar() {
 }
 
 // ============================================
-// LAUNCH PHOTOS - FIXED (Image Load)
+// LAUNCH PHOTOS - INSTANT LOAD
 // ============================================
 function launchPhotos() {
     var container = document.getElementById('flyingPhotos');
     if (!container) return;
 
-    // Clear old photos
     container.innerHTML = '';
 
-    // Shuffle photos randomly
     var shuffled = [...MEMORY_PHOTOS].sort(function() {
         return Math.random() - 0.5;
     });
@@ -73,16 +70,12 @@ function launchPhotos() {
     for (var i = 0; i < count; i++) {
         var img = document.createElement('img');
         img.className = 'flying-photo';
-        img.src = shuffled[i] + '?t=' + Date.now();
+        img.src = shuffled[i];
         img.alt = 'Memory ' + (i + 1);
         img.dataset.index = i;
         img.crossOrigin = 'anonymous';
-        
-        // ✅ Show loading state
-        img.style.opacity = '0';
-        img.style.transition = 'opacity 0.5s ease';
 
-        // ✅ Random starting position from center
+        // ✅ Random position
         var startX = 50 + (Math.random() - 0.5) * 40;
         var startY = 50 + (Math.random() - 0.5) * 40;
         img.style.left = startX + '%';
@@ -106,13 +99,7 @@ function launchPhotos() {
             zoomPhoto(this);
         });
 
-        // ✅ IMAGE LOADED - Show image
-        img.onload = function() {
-            this.style.opacity = '1';
-            console.log('Image loaded:', this.src);
-        };
-
-        // ✅ IMAGE ERROR - Show placeholder
+        // ✅ IMAGE ERROR - Show placeholder (if image not found)
         img.onerror = function() {
             console.log('Image not found:', this.src);
             this.style.display = 'none';
@@ -126,7 +113,6 @@ function launchPhotos() {
             placeholder.style.fontSize = '32px';
             placeholder.style.background = 'rgba(45, 27, 45, 0.6)';
             placeholder.style.backdropFilter = 'blur(10px)';
-            placeholder.style.opacity = '1';
             placeholder.addEventListener('click', function(e) {
                 e.stopPropagation();
                 zoomPhoto(this);
@@ -147,13 +133,11 @@ function launchPhotos() {
 // ZOOM PHOTO
 // ============================================
 function zoomPhoto(photo) {
-    // Clear any existing zoom timeout
     if (zoomTimeout) {
         clearTimeout(zoomTimeout);
         zoomTimeout = null;
     }
 
-    // If there's already a zoomed photo, remove it first
     if (currentZoomed && currentZoomed !== photo) {
         currentZoomed.classList.remove('zoomed');
         currentZoomed.classList.add('zoom-out');
@@ -162,9 +146,7 @@ function zoomPhoto(photo) {
         }, 400);
     }
 
-    // Toggle zoom on the clicked photo
     if (photo.classList.contains('zoomed')) {
-        // If already zoomed, unzoom it
         photo.classList.remove('zoomed');
         photo.classList.add('zoom-out');
         setTimeout(function() {
@@ -174,7 +156,6 @@ function zoomPhoto(photo) {
         return;
     }
 
-    // Remove any existing zoomed photo
     var existingZoomed = document.querySelector('.flying-photo.zoomed');
     if (existingZoomed) {
         existingZoomed.classList.remove('zoomed');
@@ -184,7 +165,6 @@ function zoomPhoto(photo) {
         }, 400);
     }
 
-    // Zoom the clicked photo
     photo.classList.add('zoomed');
     photo.style.pointerEvents = 'auto';
     photo.style.zIndex = '1000';
@@ -202,7 +182,6 @@ function zoomPhoto(photo) {
 
     currentZoomed = photo;
 
-    // Auto zoom out after 3-4 seconds
     zoomTimeout = setTimeout(function() {
         if (photo && photo.parentNode) {
             photo.classList.remove('zoomed');
