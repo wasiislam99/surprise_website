@@ -1,5 +1,5 @@
 // ============================================
-// MEMORY JAR - Flying Photos with Zoom (Fixed)
+// MEMORY JAR - Flying Photos with Zoom (Image Load Fix)
 // ============================================
 
 // ============================================
@@ -54,7 +54,7 @@ function openJar() {
 }
 
 // ============================================
-// LAUNCH PHOTOS
+// LAUNCH PHOTOS - FIXED (Image Load)
 // ============================================
 function launchPhotos() {
     var container = document.getElementById('flyingPhotos');
@@ -76,8 +76,13 @@ function launchPhotos() {
         img.src = shuffled[i] + '?t=' + Date.now();
         img.alt = 'Memory ' + (i + 1);
         img.dataset.index = i;
+        img.crossOrigin = 'anonymous';
+        
+        // ✅ Show loading state
+        img.style.opacity = '0';
+        img.style.transition = 'opacity 0.5s ease';
 
-        // Random starting position from center (spread out)
+        // ✅ Random starting position from center
         var startX = 50 + (Math.random() - 0.5) * 40;
         var startY = 50 + (Math.random() - 0.5) * 40;
         img.style.left = startX + '%';
@@ -86,23 +91,30 @@ function launchPhotos() {
         // Random delay
         img.style.animationDelay = (Math.random() * 0.8) + 's';
 
-        // Random size (smaller so they fit)
+        // Random size
         var size = 70 + Math.random() * 50;
         img.style.width = size + 'px';
         img.style.height = size + 'px';
 
-        // Random fly direction (shorter distance so they stay in frame)
+        // Random fly direction
         img.style.setProperty('--tx', (Math.random() - 0.5) * 400 + 'px');
         img.style.setProperty('--ty', (Math.random() - 0.5) * 400 + 'px');
 
-        // Click to zoom
+        // ✅ Click to zoom
         img.addEventListener('click', function(e) {
             e.stopPropagation();
             zoomPhoto(this);
         });
 
-        // If image not found, show placeholder
+        // ✅ IMAGE LOADED - Show image
+        img.onload = function() {
+            this.style.opacity = '1';
+            console.log('Image loaded:', this.src);
+        };
+
+        // ✅ IMAGE ERROR - Show placeholder
         img.onerror = function() {
+            console.log('Image not found:', this.src);
             this.style.display = 'none';
             var placeholder = document.createElement('div');
             placeholder.className = 'flying-photo';
@@ -114,27 +126,25 @@ function launchPhotos() {
             placeholder.style.fontSize = '32px';
             placeholder.style.background = 'rgba(45, 27, 45, 0.6)';
             placeholder.style.backdropFilter = 'blur(10px)';
+            placeholder.style.opacity = '1';
             placeholder.addEventListener('click', function(e) {
                 e.stopPropagation();
                 zoomPhoto(this);
             });
-            this.parentNode.appendChild(placeholder);
+            if (this.parentNode) {
+                this.parentNode.appendChild(placeholder);
+            }
             this.remove();
         };
 
         container.appendChild(img);
-
-        // Auto remove after animation
-        setTimeout(function(el) {
-            if (el.parentNode) el.remove();
-        }, 4500, img);
     }
 
     launchConfetti(40);
 }
 
 // ============================================
-// ZOOM PHOTO - Frame এর ভিতরে Zoom
+// ZOOM PHOTO
 // ============================================
 function zoomPhoto(photo) {
     // Clear any existing zoom timeout
